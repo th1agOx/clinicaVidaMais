@@ -28,6 +28,9 @@ class Medico(Base):
         unique=True
     )
 
+    
+    tipo_usuario : Mapped[str] = mapped_column(String(10)) 
+
     consultas = relationship(
         "Consulta",
         back_populates="medico"
