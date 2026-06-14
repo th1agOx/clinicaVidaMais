@@ -1,43 +1,46 @@
-import datetime
-from sqlalchemy.orm import Session
+class MedicoRepository:
 
-from app.models.consulta import Consulta
-from app.models.medico import Medico
+    def __init__(self, db):
 
-class MedicoRepository :
-
-    def __init__(self, db: Session):
         self.db = db
 
     def buscar_medico_id(
         self,
-        medico_id : int,
-    ) -> Medico | None:
-        
-        return(
-            self.db
-            .query(Medico)
-            .filter(
-                Medico.id_medico == medico_id
-            )
-            .first()
+        medico_id: int,
+    ) -> dict | None:
+        cursor = self.db.cursor()
+
+        cursor.execute(
+            "SELECT id_medico, nome, especialidade FROM medicos WHERE id_medico = ?", 
+            (medico_id,)
         )
+        linha = cursor.fetchone()
+        cursor.close()
+        
+        if linha:
+            return {
+                "id_medico": linha[0],
+                "nome": linha[1],
+                "especialidade": linha[2]
+            }
+        return None
 
     def medico_disponivel(
         self,
         medico_id: int,
         data_hora
     ) -> bool:
+        cursor = self.db.cursor()
 
-        consulta = (
-            self.db
-            .query(Consulta)
-            .filter(
-                Consulta.id_medico == medico_id,
-                Consulta.data_hora == data_hora,
-                Consulta.status == "agendada"
-            )
-            .first()
+        cursor.execute(
+            """
+            SELECT id_consulta FROM consultas 
+            WHERE id_medico = ? AND data_hora = ? AND status = 'agendada'
+            LIMIT 1
+            """,
+            (medico_id, str(data_hora))
         )
+        consulta = cursor.fetchone()
+        cursor.close()
 
         return consulta is None

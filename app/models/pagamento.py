@@ -1,3 +1,6 @@
+from datetime import date  
+from decimal import Decimal
+
 from sqlalchemy.orm import (
     Mapped, 
     mapped_column
@@ -24,16 +27,16 @@ class Pagamento(Base):
         autoincrement=True
     )
 
-    valor: Mapped[Numeric] = mapped_column(
+    valor: Mapped[Decimal] = mapped_column(
         Numeric(10, 2),
         nullable=False
     )
 
-    data_emissao: Mapped[Date] = mapped_column(nullable=False)
+    data_emissao: Mapped[date] = mapped_column(Date, nullable=False)
     
-    data_vencimento: Mapped[Date] = mapped_column(nullable=False)
+    data_vencimento: Mapped[date] = mapped_column(Date, nullable=False)
 
-    data_pagamento: Mapped[Date]
+    data_pagamento: Mapped[date] = mapped_column(Date, nullable=False)
 
     status: Mapped[StatusPagamento] = mapped_column(
         Enum(StatusPagamento),

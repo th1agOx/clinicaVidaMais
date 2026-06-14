@@ -28,18 +28,11 @@ class Exame(Base):
         autoincrement=True
     )
 
-    tipo: Mapped[TipoExame] = mapped_column(
-        Enum(TipoExame)
-    )
+    tipo: Mapped[TipoExame] = mapped_column(Enum(TipoExame))
 
-    data_solicitacao: Mapped[date] = mapped_column(
-        Date
-    )
+    data_solicitacao: Mapped[date] = mapped_column(Date, nullable=False)
 
-    data_resultado: Mapped[date | None] = mapped_column(
-        Date,
-        nullable=True
-    )
+    data_resultado: Mapped[date | None] = mapped_column(Date, nullable=True)
 
     resultado: Mapped[ResultadoExame | None] = mapped_column(
         Enum(ResultadoExame),
@@ -54,7 +47,7 @@ class Exame(Base):
         ForeignKey("paciente.id_paciente")
     )
 
-    paciente = relationship(
+    pacientes = relationship(
         "Paciente",
         back_populates="exames"
     )

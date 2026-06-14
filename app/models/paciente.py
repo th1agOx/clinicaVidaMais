@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlalchemy import (
     String, 
     Date, 
@@ -22,21 +24,19 @@ class Paciente(Base):
         autoincrement=True
     )
 
-    nome: Mapped[str] = mapped_column(String(100))
+    nome: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    cpf: Mapped[str] = mapped_column(String(11), unique=True)
+    cpf: Mapped[str] = mapped_column(String(15), unique=True, nullable=False)
 
-    telefone: Mapped[str] = mapped_column(String(20))
+    telefone: Mapped[str] = mapped_column(String(20), nullable=False)
 
-    email: Mapped[str] = mapped_column(String(100), unique=True)
+    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
 
-    endereco: Mapped[str] = mapped_column(String(150))
+    endereco: Mapped[str] = mapped_column(String(150), nullable=False)
 
-    data_nascimento: Mapped[Date]
+    data_nascimento: Mapped[date] = mapped_column(Date, nullable=False)
 
-    perfil: Mapped[str] = mapped_column(String(50))
-
-    tipo_usuario : Mapped[str] = mapped_column(String(10)) 
+    tipo_usuario: Mapped[str] = mapped_column(String(50), nullable=False)
     
     id_plano: Mapped[int | None] = mapped_column(
         ForeignKey("plano_saude.id_plano"),
@@ -50,10 +50,10 @@ class Paciente(Base):
 
     consultas = relationship(
         "Consulta",
-        back_populates="paciente"
+        back_populates="pacientes"
     )
 
     exames = relationship(
         "Exame",
-        back_populates="paciente"
+        back_populates="pacientes"
     )

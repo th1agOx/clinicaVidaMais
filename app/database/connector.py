@@ -1,17 +1,16 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = (
-    "postgresql://postgres:senha@localhost:5432/clinica"
-)
+from app.database.base import Base
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=True
-)
+DATABASE_URL = "sqlite:///./clinicavida.db"
 
-SessionLocal = sessionmaker(
-    autoflush=False,
-    autocommit=False,
-    bind=engine
-)
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

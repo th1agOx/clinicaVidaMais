@@ -1,10 +1,9 @@
-from app.database.connector import SessionLocal
+from app.controllers.menu_controller import (
+    MenuController
+)
 
-def get_db():
-    db = SessionLocal()
+if __name__ == "__main__":
 
-    try:
-        yield db
+    menu = MenuController()
 
-    finally:
-        db.close()
+    menu.executar()

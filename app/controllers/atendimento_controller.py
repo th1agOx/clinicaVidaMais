@@ -3,7 +3,7 @@ from fastapi import Depends
 
 from sqlalchemy.orm import Session
 
-from app.database.connector import get_db
+from app.database.connection import get_db
 
 from app.dto.AtendimentoValidationDTO import (
     AtendimentoValidationDTO

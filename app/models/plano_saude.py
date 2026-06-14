@@ -12,7 +12,8 @@ class PlanoSaude(Base):
         autoincrement=True
     )
 
-    nome: Mapped[str] = mapped_column(String(100))
+    nome: Mapped[str] = mapped_column(String(100), nullable=False)
+
     operadora: Mapped[str] = mapped_column(String(100))
 
     pacientes = relationship(

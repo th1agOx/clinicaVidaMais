@@ -1,9 +1,11 @@
 from enum import Enum
 
-class PerfilUsuario(str, Enum):
+class Perfil(str, Enum):
 
     SECRETARIA = "secretaria"
 
     MEDICO = "medico"
 
     ADMIN = "admin"
+
+    PASCIENTE = "paciente"

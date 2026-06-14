@@ -12,24 +12,15 @@ class Medico(Base):
         autoincrement=True
     )
 
-    crm: Mapped[str] = mapped_column(
-        String(20),
-        unique=True
-    )
+    crm: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
 
-    nome: Mapped[str] = mapped_column(String(100))
+    nome: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    especialidade: Mapped[str] = mapped_column(
-        String(100)
-    )
+    especialidade: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    email: Mapped[str] = mapped_column(
-        String(100),
-        unique=True
-    )
+    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
 
-    
-    tipo_usuario : Mapped[str] = mapped_column(String(10)) 
+    tipo_usuario : Mapped[str] = mapped_column(String(50), nullable=False) 
 
     consultas = relationship(
         "Consulta",

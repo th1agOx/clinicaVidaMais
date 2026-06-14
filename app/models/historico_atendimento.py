@@ -24,17 +24,11 @@ class HistoricoAtendimento(Base):
         autoincrement=True
     )
 
-    data_registro: Mapped[datetime] = mapped_column(
-        DateTime
-    )
+    data_registro: Mapped[datetime] = mapped_column( DateTime, nullable=False)
 
-    observacao: Mapped[str] = mapped_column(
-        String(500)
-    )
+    observacao: Mapped[str] = mapped_column(String(500))
 
-    diagnostico: Mapped[str] = mapped_column(
-        String(300)
-    )
+    diagnostico: Mapped[str] = mapped_column(String(300), nullable=False)
 
     id_consulta: Mapped[int] = mapped_column(
         ForeignKey("consulta.id_consulta"),

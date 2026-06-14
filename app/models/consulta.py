@@ -27,15 +27,18 @@ class Consulta(Base):
     )
 
     data_hora: Mapped[datetime] = mapped_column(
-        DateTime
+        DateTime,
+        nullable=False
     )
 
     queixa_principal: Mapped[str] = mapped_column(
-        String(200)
+        String(200),
+        nullable=False
     )
 
     status: Mapped[StatusConsulta] = mapped_column(
-        Enum(StatusConsulta)
+        Enum(StatusConsulta),
+        nullable=False
     )
 
     id_paciente: Mapped[int] = mapped_column(
@@ -46,7 +49,7 @@ class Consulta(Base):
         ForeignKey("medico.id_medico")
     )
 
-    paciente = relationship(
+    pacientes = relationship(
         "Paciente",
         back_populates="consultas"
     )
