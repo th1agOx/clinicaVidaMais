@@ -89,7 +89,6 @@ class PacienteRepository:
 
             print(f"Erro no banco: {e}")
             return False
-
     
     def atualizar(self, paciente):
         cursor = self.db.cursor()
@@ -195,7 +194,6 @@ class PacienteRepository:
             print(f"Erro ao listar pacientes: {e}")
             return None
 
-    
     def buscar_por_nome(self, nome: str):
         cursor = self.db.cursor()
 
@@ -234,3 +232,63 @@ class PacienteRepository:
 
             print(f"Erro interno: {e}")
             return False
+        
+    def listar_idades(self) -> list[int]:
+        cursor = self.db.cursor()
+
+        try :
+            cursor.execute(
+                """
+                SELECT
+                    (strftime('%Y', 'now') - strftime('%Y', data_nascimento) ) -
+                    (strftime('%m-%d', 'now') < strftime('%m-%d', data_nascimento)) AS idade
+                FROM pacientes
+                """
+            )
+
+            resultados = cursor.fetchall()
+            cursor.close()
+
+            return [linha[0] for linha in resultados]
+        
+        except sqlite3.Error as e:
+            cursor.close()
+
+            print(f"Erro ao listar idades para média: {e}")
+            return []
+        
+    def obter_paciente_mais_velho_e_mais_novo(self) -> dict | None:
+        cursor = self.db.cursor()
+        try:
+            cursor.execute(
+                """
+                SELECT nome, data_nascimento, 'Mais Velho' AS tipo
+                FROM pacientes
+                WHERE data_nascimento = (SELECT MIN(data_nascimento) FROM pacientes)
+
+                UNION ALL
+
+                SELECT nome, data_nascimento, 'Mais Novo' AS tipo
+                FROM pacientes
+                WHERE data_nascimento = (SELECT MAX(data_nascimento) FROM pacientes);
+                """
+            )
+            resultados = cursor.fetchall()
+            cursor.close()
+
+            # Estrutura o retorno para o seu backend consumir facilmente
+            dados_extremos = {"mais_velho": None, "mais_novo": None}
+
+            for linha in resultados:
+                dados_paciente = {"nome": linha[0], "data_nascimento": linha[1]}
+                if linha[2] == 'Mais Velho':
+                    dados_extremos["mais_velho"] = dados_paciente
+                else:
+                    dados_extremos["mais_novo"] = dados_paciente
+
+            return dados_extremos
+
+        except sqlite3.Error as e:
+            cursor.close()
+            print(f"Erro ao buscar extremos de idade: {e}")
+            return None

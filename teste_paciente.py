@@ -12,7 +12,7 @@ from app.models.paciente import Paciente
 
 from datetime import date
 
-def testar_aplicacao_completa():
+def testar_paciente_completo():
     print("Criando tabelas no SQLite via SQLAlchemy...")
     Base.metadata.create_all(bind=engine)
     
@@ -48,4 +48,4 @@ def testar_aplicacao_completa():
         db.close()
 
 if __name__ == "__main__":
-    testar_aplicacao_completa()
+    testar_paciente_completo()
