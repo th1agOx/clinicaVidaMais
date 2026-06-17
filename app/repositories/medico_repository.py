@@ -49,3 +49,38 @@ class MedicoRepository:
 
             print(f"Erro Interno: {e}")
             return consulta is None
+
+
+    def buscar_por_email(self, email: str):
+        
+        cursor = self.db.cursor()
+
+        cursor.execute(
+            """
+            SELECT
+                id_medico,
+                crm,
+                nome,
+                especialidade,
+                email
+            FROM medicos
+            WHERE email = ?
+            """,
+            (email,)
+        )
+
+        linha = cursor.fetchone()
+
+        cursor.close()
+
+        if linha:
+
+            return {
+                "id_medico": linha[0],
+                "crm": linha[1],
+                "nome": linha[2],
+                "especialidade": linha[3],
+                "email": linha[4]
+            }
+
+        return None

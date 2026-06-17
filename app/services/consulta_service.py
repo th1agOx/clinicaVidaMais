@@ -1,3 +1,5 @@
+from datetime import date
+
 from app.models.consulta import Consulta
 from app.models.pagamento import Pagamento
 
@@ -88,7 +90,7 @@ class ConsultaService :
         )
 
         consulta = (
-            self.pagamento_repository
+            self.consulta_repository
             .salvar(
                 consulta
             )

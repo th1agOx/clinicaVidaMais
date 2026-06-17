@@ -17,7 +17,7 @@ from app.repositories.consulta_repository import (
     ConsultaRepository
 )
 
-from app.services.atendimento_validationService import (
+from app.services.atendimento_validation_service import (
     AtendimentoValidationService
 )
 

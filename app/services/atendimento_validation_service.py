@@ -38,7 +38,7 @@ class AtendimentoValidationService:
             paciente.cpf is not None
         )
 
-    def consulta_valida(
+    def consulta_valida( ##pós agendamento
         self,
         paciente_id: int
     ) -> bool:

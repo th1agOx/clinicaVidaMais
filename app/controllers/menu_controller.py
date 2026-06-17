@@ -1,3 +1,5 @@
+from app.services.login_service import LoginService 
+
 class MenuController :
 
     def executar(self):
@@ -6,46 +8,24 @@ class MenuController :
 
             self.exibir_menu()
 
-            opcao = input(
-                "------------ SISTEMA CLÍNICA VIDA+ ------------ " \
-                " " \
-                "1. Cadastrar paciente " \
-                "2 - Atualizar paciente" \
-                "3 - Remover paciente" \
-                "4. Buscar paciente " \
-                "5. Listar todos os pacientes " \
-                "6. Ver estatísticas " \
-                "0. Sair" \
-                f"7. Escolha uma opção: {opcao}"
+            email = input(
+                "Informe seu email: "
             )
 
-            match opcao:
+            medico = (
+                LoginService.autenticar_medico(
+                    email
+                )
+            )
 
-                case "1":
-                    self.login()
+            if medico:
 
-                case "2":
-                    self.cadastrar_paciente()
+                self.menu_medico(
+                    medico
+                )
 
-                case "3":
-                    self.remover_paciente()
+            else:
 
-                case "4":
-                    self.buscar_paciente()
+                self.menu_secretaria()
 
-                case "5":
-                    self.listar_pacientes()
-
-                case "6":
-                    self.agendar_consulta()
-
-                case "7":
-                    self.validar_atendimento()
-
-                case "0":
-                    break
-
-                case _:
-                    print(
-                        "Opção inválida."
-                    )
+          
